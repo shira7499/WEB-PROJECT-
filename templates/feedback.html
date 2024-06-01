@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Feedback</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div id="header">
+        <div>
+            <ul class="first">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('menu_page') }}">Everyday Menu</a></li>
+            </ul>
+            <div>
+                <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo"></a>
+            </div>
+            <ul>
+                <li class="current"><a href="{{ url_for('operator_dashboard') }}">Login</a></li>
+                <li><a href="{{ url_for('blog_page') }}">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="feedback-form-container">
+        <h1>Order Feedback</h1>
+        <form method="POST" action="{{ url_for('feedback') }}" enctype="multipart/form-data">
+            <div>
+                <label for="order_id">Order ID:</label>
+                <input type="text" name="order_id" id="order_id" required>
+            </div>
+            <div>
+                <label for="rating">Rating:</label>
+                <input type="number" name="rating" id="rating" min="1" max="5" required>
+            </div>
+            <div>
+                <label for="comment">Comment:</label>
+                <textarea name="comment" id="comment" required></textarea>
+            </div>
+            <div>
+                <label for="image">Image:</label>
+                <input type="file" name="image" id="image">
+            </div>
+            <button type="submit">Submit Feedback</button>
+        </form>
+        <a href="{{ url_for('customer_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

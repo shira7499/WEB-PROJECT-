@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .menu-container {
+            display: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .menu-card {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+        }
+        .menu-card h3 {
+            margin: 0 0 10px;
+        }
+        .menu-card p {
+            margin: 0 0 10px;
+        }
+        .menu-card label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .category-btn {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50; /* צבע רקע לכפתור */
+            color: white; /* צבע טקסט לכפתור */
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        .category-btn:hover {
+            background-color: #45a049; /* צבע רקע לכפתור כאשר עוברים עליו עם העכבר */
+            opacity: 0.8;
+        }
+    </style>
+    <script>
+        function toggleCategory(category) {
+            var container = document.getElementById(category);
+            if (container.style.display === 'flex') {
+                container.style.display = 'none';
+            } else {
+                container.style.display = 'flex';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="header">
+        <div>
+            <ul class="first">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('menu_page') }}">Everyday Menu</a></li>
+            </ul>
+            <div>
+                <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo"></a>
+            </div>
+            <ul>
+                <li class="current"><a href="{{ url_for('customer_dashboard') }}">Login</a></li>
+                <li><a href="{{ url_for('blog_page') }}">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="order-form-container">
+        <h1>Customer Dashboard</h1>
+        <form method="POST" action="{{ url_for('customer_dashboard') }}">
+            <h2>Customer Details</h2>
+            <div>
+                <label for="customer_name">Customer Name:</label>
+                <input type="text" name="customer_name" id="customer_name" required>
+            </div>
+            <div>
+                <label for="phone_number">Phone Number:</label>
+                <input type="tel" name="phone_number" id="phone_number" required>
+            </div>
+            <div>
+                <label for="delivery_address">Delivery Address:</label>
+                <textarea name="delivery_address" id="delivery_address" required></textarea>
+            </div>
+            <h2>Menu</h2>
+            <button type="button" class="category-btn" onclick="toggleCategory('pizza')">Pizza</button>
+            <button type="button" class="category-btn" onclick="toggleCategory('pasta')">Pasta</button>
+            <div id="pizza" class="menu-container">
+                {% for dish in menu_items if dish.description == 'pizza' %}
+                <div class="menu-card">
+                    <h3>{{ dish.name }}</h3>
+                    <p>${{ dish.price }}</p>
+                    <label for="quantity_{{ dish.id }}">Quantity:</label>
+                    <input type="number" name="quantity_{{ dish.id }}" id="quantity_{{ dish.id }}" min="0">
+                </div>
+                {% endfor %}
+            </div>
+            <div id="pasta" class="menu-container">
+                {% for dish in menu_items if dish.description == 'pasta' %}
+                <div class="menu-card">
+                    <h3>{{ dish.name }}</h3>
+                    <p>${{ dish.price }}</p>
+                    <label for="quantity_{{ dish.id }}">Quantity:</label>
+                    <input type="number" name="quantity_{{ dish.id }}" id="quantity_{{ dish.id }}" min="0">
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit">Place Order</button>
+        </form>
+        {% if summary %}
+            <h2>Order Summary</h2>
+            <ul>
+                {% for item, quantity in summary.items() %}
+                    <li>{{ item }} - Quantity: {{ quantity }}</li>
+                {% endfor %}
+            </ul>
+            <p>Total Price: ${{ total_price }}</p>
+        {% endif %}
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+        <a href="{{ url_for('feedback') }}">Leave Feedback</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</body>
+</html>
+

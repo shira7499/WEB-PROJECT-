@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .result-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: white;
+            text-align: center;
+            font-family: 'JosefinSlabRegular'; /* גופן זהה לשאר האתר */
+        }
+        .result-container .message {
+            color: #34441f;
+            font-family: 'JosefinSlabRegular';
+            margin-bottom: 20px;
+        }
+        .result-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: 'JosefinSlabRegular';
+        }
+        .result-container a:hover {
+            background-color: #45a049;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div>
+            <ul class="first">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('menu_page') }}">Everyday Menu</a></li>
+            </ul>
+            <div>
+                <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo"></a>
+            </div>
+            <ul>
+                <li class="current"><a href="{{ url_for('operator_dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('blog_page') }}">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="result-container">
+        <div class="message">
+            Result of addition: {{ msg }}
+        </div>
+        <h2><a href="{{ url_for('add_dish') }}">Go back to add dish page</a></h2>
+    </div>
+</body>
+</html>
